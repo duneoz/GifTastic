@@ -44,19 +44,7 @@ $("#add-character").on("click", function(event) {
   renderButtons();
 });
 
-
-
-// Function for displaying the movie info
-  
-// We're adding a click event listener to all elements with the class "movie"
-// We're adding the event listener to the document itself because it will
-// work for dynamically generated elements
-// $(".movies").on("click") will only add listeners to elements that are on the page at that time
-// $(document).on("click", ".character", alertMovieName);
-
-// Calling the renderButtons function to display the intial buttons
 renderButtons();
-
 
 //button click run AJAX get
 $(".character").on("click", function() {
@@ -70,26 +58,46 @@ $(".character").on("click", function() {
     $.ajax({
       url: queryURL,
       method: "GET"
-    })
-
-    .then(function(response) {
+    }).done(function(response){
       var results = response.data;
+      console.log(results);
 
-      for(var i = 0; i < results.length; i++) {
-        var gifDiv = $("<div>");
+      for (var i =0; i < results.length; i++) {
+        var gifDiv = $("<div class='col-md-4'>");
 
         var rating = results[i].rating;
-
+        var gifAnimatedSrc = results[i].images.fixed_height.url;
+        var gifStaticSrc = results[i].images.fixed_height_still.url;
+        var charImage = $("<img>");
         var p = $("<p>").text("Rating: " + rating);
 
-        var charImage = $("<img>");
-        charImage.attr("src", results[i].images.fixed_height.url);
-
+        charImage.attr("src", gifStaticSrc);
+        charImage.addClass("ssGif");
+        charImage.attr("data-state", "still");
+        charImage.attr("data-still", gifStaticSrc);
+        charImage.attr("data-animate", gifAnimatedSrc);
+        
         gifDiv.prepend(p);
         gifDiv.prepend(charImage);
 
         $("#gifs-appear-here").prepend(gifDiv);
+
       }
     })
 
 });
+
+//toggle between animated and static source on gif click
+$(document).on("click", ".ssGif", gifPausePlay);
+
+//function to toggle between image state source
+function gifPausePlay() {
+  var state = $(this).attr("data-state");
+  if (state === "still") {
+    $(this).attr("src", $(this).attr("data-animate"));
+    $(this).attr("data-state", "animate");
+  } else {
+    $(this).attr("src", $(this).attr("data-still"));
+    $(this).attr("data-state", "still");
+  }
+};
