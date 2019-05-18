@@ -1,3 +1,13 @@
 button, div, form, input {
       margin: 10px;
     }
+
+
+    .bg {
+      background-image: url("../images/1280px-Sesame-Street-logo.svg.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+      width: 100%;
+      min-height: 150px;
+  }

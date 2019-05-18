@@ -42,9 +42,15 @@ $("#add-character").on("click", function(event) {
   
   // Calling renderButtons which handles the processing of our character array
   renderButtons();
+  pushButton();
 });
 
 renderButtons();
+pushButton();
+
+function pushButton() {
+
+
 
 //button click run AJAX get
 $(".character").on("click", function() {
@@ -63,7 +69,7 @@ $(".character").on("click", function() {
       console.log(results);
 
       for (var i =0; i < results.length; i++) {
-        var gifDiv = $("<div class='col-md-4'>");
+        var gifDiv = $("<div class='col-md-3'>");
 
         var rating = results[i].rating;
         var gifAnimatedSrc = results[i].images.fixed_height.url;
@@ -85,7 +91,8 @@ $(".character").on("click", function() {
       }
     })
 
-});
+}); 
+}
 
 //toggle between animated and static source on gif click
 $(document).on("click", ".ssGif", gifPausePlay);
